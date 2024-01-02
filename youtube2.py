@@ -1,4 +1,5 @@
 #***********************Import Section***********************
+pip install google-api-python-client
 from googleapiclient.discovery import build
 import isodate
 import mysql.connector
@@ -208,6 +209,7 @@ def data_to_mongo(channelId):
         
     collection.insert_one({"ChannelInfo": channelData, "videoIds" : videoIds,
                            "VideoInfo": videoData, "CommentInfo":commentData})
+    
     return  "YouTube data has Uploaded To MongoDB Successfully"
 
  
@@ -231,20 +233,22 @@ cursor = mydb.cursor()
 #    Arguments: MySQL connection
 #    Return: NA'''
     
-def channels_table(cursor):
-    sqlChName = []
+def channels_table():
+
     username = 'root'
     password = '255244'
     host = 'localhost'
     database_name = 'Youtube'
-    
+
     mydb = mysql.connector.connect(
         user=username,
         password=password,
         host=host,
-        database=database_name
+        database=database_name,
         )
+
     cursor = mydb.cursor()
+  
     create_query = ( """CREATE TABLE IF NOT EXISTS channelsTable (Channel_Name varchar(100),Channel_Id varchar(80) primary key,
                         Subscriber_Count bigint,View_Count bigint, Total_videos int, Channel_Description TEXT,
                         Channel_Published_At TEXT, Channel_Playlist_Id varchar(50))""")
@@ -287,19 +291,20 @@ def channels_table(cursor):
 #    Arguments: MySQL connection
 #    Return: NA'''
 
-def videos_table(cursor):
-    sqlChName = []
+def videos_table():
+
     username = 'root'
     password = '255244'
     host = 'localhost'
     database_name = 'Youtube'
-    
+
     mydb = mysql.connector.connect(
         user=username,
         password=password,
         host=host,
-        database=database_name
+        database=database_name,
         )
+
     cursor = mydb.cursor()
     try:    
         create_query = ("""CREATE TABLE IF NOT EXISTS videosTable(channelId varchar(50), channelName varchar(80),
@@ -489,6 +494,7 @@ def showChannelTable():
     for c_data in coll1.find({},{"_id":0,"ChannelInfo":1}):
         for i in range(len(c_data["ChannelInfo"])):
             cList.append(c_data["ChannelInfo"][i])
+    # st.write(cList)
     channelTable = st.dataframe(cList)
     return channelTable
 
@@ -526,7 +532,6 @@ channelId = st.text_input(":blue[Enter the channel ID 👇]")
 
 #*****************************Data retrieval and Store To MongoDB Button********************************
 
-
 if st.button("Collect and Store Data in MongoDb"): 
 
     chIds = []
@@ -541,12 +546,13 @@ if st.button("Collect and Store Data in MongoDb"):
         st.empty()
 
     else:
-        getData = data_to_mongo(id)
+        getData = data_to_mongo(channelId)
         if getData == "Error1":
             st.write("There was some error in getting the data, please check your input")
         else:
             st.write(getData)
-                
+            
+            
 #***********************************SQL BUTTON******************
 if st.button("Data Migration to MySQL"):
     username = 'root'
@@ -717,11 +723,11 @@ if queryOptions == "---select---":
 
 elif queryOptions == "1. Channel Name":
     channelName = st.text_input("**Enter the channel name 👇**")
-    found = False
-    emstring = False
+    found=False
+    emstring=False
     if channelName == "":
         st.write("You have not entered channel name yet.")
-        emstring = True
+        emstring=True
 
     else:
         q11 = "select Channel_Name from channelsTable;"
@@ -731,7 +737,7 @@ elif queryOptions == "1. Channel Name":
         for i in range(len(sqlChName)):
 
             if channelName == sqlChName[i][0]:
-                found = True
+                found=True
                 st.write("Channel is in Database, you can choose the options from sidebar.")
     
                 st.sidebar.subheader('Select Columns for Tabular View')
@@ -779,17 +785,19 @@ elif queryOptions == "1. Channel Name":
             else:
                 continue
         if not found and not emstring:
+
             st.write("invalid Channel Name, please re-enter")
             st.sidebar.checkbox('Channel Name', value = False, disabled= True)
 
 elif queryOptions == "2. Channel Id":
-
+    
     sqlChIds = []
-    channelId = st.text_input("Enter the channel ID 👇")
+    channelId = st.text_input("For Search, kindly enter the channel ID 👇")
     found = False
     emstring = False
     if channelId == "":
         st.write("You have not entered channel ID yet.")
+        emstring = True
 
     else:
         q11 = "select channelId from videosTable;"
@@ -802,11 +810,11 @@ elif queryOptions == "2. Channel Id":
                 found = True
                 st.write("Channel Id is in Database, you can choose the options from sidebar.")
                 st.sidebar.subheader('Select Columns for Tabular View')
-                option_1 = st.sidebar.checkbox('Channel Id', value = True, disabled=False)
+                option_1 = st.sidebar.checkbox('Channel_Id', value = True, disabled=False)
                 
                 option_1 = "channelId,"
                 
-                option_2 =st.sidebar.checkbox("Video Name",disabled=False)
+                option_2 =st.sidebar.checkbox("Video_Name",disabled=False)
 
                 if option_2 == True:
                     option_2 = "videoName,"
@@ -814,7 +822,7 @@ elif queryOptions == "2. Channel Id":
                 else:
                     option_2 = ""
 
-                option_3 = st.sidebar.checkbox("Video Duration(in sec)",disabled=False)
+                option_3 = st.sidebar.checkbox("Video_Duration(in sec)",disabled=False)
 
                 if option_3 == True:
                     option_3 = "videoDuration,"
@@ -822,7 +830,7 @@ elif queryOptions == "2. Channel Id":
                 else:
                     option_3 = ""
 
-                option_4 = st.sidebar.checkbox('Video Description',disabled=False)
+                option_4 = st.sidebar.checkbox('Video_Description',disabled=False)
 
                 if option_4 == True:
                     option_4 = "videoDescription,"
@@ -830,7 +838,7 @@ elif queryOptions == "2. Channel Id":
                 else:
                     option_4 = ""
 
-                option_5 = st.sidebar.checkbox('Published Date',disabled=False)
+                option_5 = st.sidebar.checkbox('Published_Date',disabled=False)
 
                 if option_5 == True:
                     option_5 = "publishedAt,"
@@ -838,28 +846,28 @@ elif queryOptions == "2. Channel Id":
                 else:
                     option_5 = ""
 
-                option_6 = st.sidebar.checkbox("Likes",disabled=False)
+                option_6 = st.sidebar.checkbox("Likes_Count",disabled=False)
 
                 if option_6 == True:
                     option_6 = "videoLikeCount,"
 
                 else:
                     option_6 = ""
-                option_7 = st.sidebar.checkbox("Video Views",disabled=False)
+                option_7 = st.sidebar.checkbox("Video_Views",disabled=False)
 
                 if option_7 == True:
                     option_7 = "videoViewCount,"
 
                 else:
                     option_7 = ""
-                option_8 = st.sidebar.checkbox("Comment Author",disabled=False)
+                option_8 = st.sidebar.checkbox("Comment_Author",disabled=False)
 
                 if option_8 == True:
                     option_8 = "comment_author,"
 
                 else:
                     option_8 = ""
-                option_9 = st.sidebar.checkbox("Comment Text",disabled=False)
+                option_9 = st.sidebar.checkbox("Comment_Text",disabled=False)
 
                 if option_9 == True:
                     option_9 = "comment_text,"
@@ -867,7 +875,7 @@ elif queryOptions == "2. Channel Id":
                 else:
                     option_9 = ""
 
-                option_10 = st.sidebar.checkbox('Comment Count',disabled=False)
+                option_10 = st.sidebar.checkbox('Comment_Count',disabled=False)
 
                 if option_10 == True:
                     option_10 = "commentCount,"
@@ -886,15 +894,15 @@ elif queryOptions == "2. Channel Id":
                 option_list=option_1+option_2+option_3+option_4+option_5+option_6+option_7+option_8+option_9+option_10+option_11
                 option_list = option_list[:-1]
                 option_list=option_list+" "
-                x= "select "+option_list+" from videosTable join commentsTable \
-                    on videosTable.videoId = commentsTable.video_id \
-                        where channelId = '"+channelId+"';"
+                x= "select "+option_list+" from videosTable join commentsTable on videosTable.videoId = commentsTable.video_id where channelId = '"+channelId+"';"
                 cursor.execute(x)
                 y = cursor.fetchall()
                 st.write(pd.DataFrame(y))
+                break
 
             else:
                 continue
+
         if not found and not emstring:
             st.write("invalid Channel Id, please re-enter")
             st.sidebar.checkbox('Channel Id', value = False, disabled= True)
