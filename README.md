@@ -54,7 +54,7 @@ Using Streamlit application visualize output of the project.
 4. Search 10 questions provided with the Project.
 5. Generate column view at runtime using search options based on channel ID and channel name.
 
-Feel free to reach me on my linkedin Profile.(Details availabe in footer section)
+Feel free to reach me on my linkedin Profile:> https://www.linkedin.com/in/sabreena-gulzar-5a0227176/
 
 
 
