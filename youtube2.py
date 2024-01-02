@@ -232,7 +232,19 @@ cursor = mydb.cursor()
 #    Return: NA'''
     
 def channels_table(cursor):
-  
+    sqlChName = []
+    username = 'root'
+    password = '255244'
+    host = 'localhost'
+    database_name = 'Youtube'
+    
+    mydb = mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=database_name
+        )
+    cursor = mydb.cursor()
     create_query = ( """CREATE TABLE IF NOT EXISTS channelsTable (Channel_Name varchar(100),Channel_Id varchar(80) primary key,
                         Subscriber_Count bigint,View_Count bigint, Total_videos int, Channel_Description TEXT,
                         Channel_Published_At TEXT, Channel_Playlist_Id varchar(50))""")
@@ -276,6 +288,19 @@ def channels_table(cursor):
 #    Return: NA'''
 
 def videos_table(cursor):
+    sqlChName = []
+    username = 'root'
+    password = '255244'
+    host = 'localhost'
+    database_name = 'Youtube'
+    
+    mydb = mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=database_name
+        )
+    cursor = mydb.cursor()
     try:    
         create_query = ("""CREATE TABLE IF NOT EXISTS videosTable(channelId varchar(50), channelName varchar(80),
                         videoId varchar(50) primary key,videoName varchar(150),
@@ -438,7 +463,7 @@ text-align: center;
 }
 </style>
 <div class="footer">
-<p>Developed by ©Sabreena Gulzar<a style='display: block; right-align: right;' href="https://www.linkedin.com/in/sabreena-gulzar-5a0227176" target="_blank" = blank>©Sabreena Gulzar</a></p>
+<p>Developed by <a style='display: block; right-align: right;' href="https://www.linkedin.com/in/sabreena-gulzar-5a0227176" target="_blank" = blank>©Sabreena Gulzar</a></p>
 </div>
 """
 st.markdown(footer,unsafe_allow_html=True)
@@ -448,8 +473,8 @@ st.markdown(footer,unsafe_allow_html=True)
 #    Returns: String'''
 
 def tables():
-    channels_table(cursor)
-    videos_table(cursor)
+    channels_table()
+    videos_table()
     comments_table()
     return "Tables Created Successfully"
 
@@ -692,9 +717,11 @@ if queryOptions == "---select---":
 
 elif queryOptions == "1. Channel Name":
     channelName = st.text_input("**Enter the channel name 👇**")
-
+    found = False
+    emstring = False
     if channelName == "":
         st.write("You have not entered channel name yet.")
+        emstring = True
 
     else:
         q11 = "select Channel_Name from channelsTable;"
@@ -704,6 +731,7 @@ elif queryOptions == "1. Channel Name":
         for i in range(len(sqlChName)):
 
             if channelName == sqlChName[i][0]:
+                found = True
                 st.write("Channel is in Database, you can choose the options from sidebar.")
     
                 st.sidebar.subheader('Select Columns for Tabular View')
@@ -748,8 +776,9 @@ elif queryOptions == "1. Channel Name":
                 q = cursor.fetchall()
                 st.write(pd.DataFrame(q), columns=[option_list])
 
-        else:
-
+            else:
+                continue
+        if nor found and not emstring:
             st.write("invalid Channel Name, please re-enter")
             st.sidebar.checkbox('Channel Name', value = False, disabled= True)
 
@@ -757,7 +786,8 @@ elif queryOptions == "2. Channel Id":
 
     sqlChIds = []
     channelId = st.text_input("Enter the channel ID 👇")
-
+    found = False
+    emstring = False
     if channelId == "":
         st.write("You have not entered channel ID yet.")
 
@@ -769,7 +799,7 @@ elif queryOptions == "2. Channel Id":
         for i in range(len(sqlChIds)):
 
             if channelId == sqlChIds[i][0]:
-
+                found = True
                 st.write("Channel Id is in Database, you can choose the options from sidebar.")
                 st.sidebar.subheader('Select Columns for Tabular View')
                 option_1 = st.sidebar.checkbox('Channel Id', value = True, disabled=False)
@@ -863,8 +893,9 @@ elif queryOptions == "2. Channel Id":
                 y = cursor.fetchall()
                 st.write(pd.DataFrame(y))
 
-        else:
-
+            else:
+                continue
+        if not found and not emstring:
             st.write("invalid Channel Id, please re-enter")
             st.sidebar.checkbox('Channel Id', value = False, disabled= True)
 
