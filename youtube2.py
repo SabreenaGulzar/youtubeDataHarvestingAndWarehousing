@@ -778,7 +778,7 @@ elif queryOptions == "1. Channel Name":
 
             else:
                 continue
-        if nor found and not emstring:
+        if not found and not emstring:
             st.write("invalid Channel Name, please re-enter")
             st.sidebar.checkbox('Channel Name', value = False, disabled= True)
 
