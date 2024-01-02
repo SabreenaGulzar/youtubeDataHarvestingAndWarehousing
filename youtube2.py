@@ -1,5 +1,4 @@
 #***********************Import Section***********************
-pip install google-api-python-client
 from googleapiclient.discovery import build
 import isodate
 import mysql.connector
