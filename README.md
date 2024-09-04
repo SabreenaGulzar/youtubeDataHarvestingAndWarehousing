@@ -1,60 +1,58 @@
-# YoutubeDataHarvestingAndWarehousing
-**Problem Statement:**
+# Project: YouTube Data Harvesting and Warehousing
 
-The problem statement is to create a Streamlit application that allows users to access
-and analyze data from multiple YouTube channels. The application should have the
-following features:
-1. Ability to input a YouTube channel ID and retrieve all the relevant data
-(Channel name, subscribers, total video count, playlist ID, video ID, likes,
-dislikes, comments of each video) using Google API.
-2. Option to store the data in a MongoDB database as a data lake
-3. Ability to collect data for up to 10 different YouTube channels and store them in
-the data lake by clicking a button.
-4. Option to select a channel name and migrate its data from the data lake to a
-SQL database as tables.
-5. Ability to search and retrieve data from the SQL database using different
-search options, including joining tables to get channel details.
+Problem Statement: The project aims to develop a Streamlit application that allows users to access, analyze, and store data from multiple YouTube channels. The application should enable users to retrieve comprehensive data from YouTube using a channel ID and store this data in a MongoDB data lake. Additionally, users should be able to migrate data from the data lake to a SQL database, perform complex queries, and visualize the data within the Streamlit app.
 
-**Approach:**
-1. Set up a Streamlit app
-2. Connect to the YouTube API
-3. Store data in a MongoDB data lake
-5. Query the SQL data warehouse
-6. Display data in the Streamlit app
+Features:
 
-**Project Description:**
+YouTube Channel Data Retrieval:
+Input a YouTube channel ID to retrieve data such as channel name, subscribers, video count, playlist ID, video ID, likes, dislikes, and comments using the Google API.
+Data Storage in MongoDB:
+Store retrieved YouTube channel data in a MongoDB database, functioning as a data lake for up to 10 different channels.
+Data Migration to SQL:
+Select a channel name and migrate its data from MongoDB to a SQL database, creating structured tables for easier querying.
+Data Search and Analysis:
+Perform searches and retrieve data from the SQL database using different options, including joining tables to get detailed channel information.
+Approach:
 
-Pre requisites:
+Set up a Streamlit App:
+Develop the user interface and backend logic using Streamlit to handle data retrieval, storage, and visualization.
+Connect to the YouTube API:
+Utilize the Google API to fetch YouTube channel data based on the channel ID.
+Store Data in MongoDB:
+Store the collected YouTube data in a MongoDB database, enabling scalable storage and retrieval.
+Query the SQL Data Warehouse:
+Migrate data from MongoDB to a SQL database and perform queries to retrieve and analyze the data.
+Display Data in the Streamlit App:
+Use Streamlit to visualize the data, allowing users to explore YouTube channel metrics and insights.
+Methodology:
 
-1. Install visual studio.
-2. Install Python and Pandas.
-3. Install Google API Client.
-4. Install MongoDB and MySQL.
-5. Install Streamlit Application.
+Environment Setup:
 
-**Methodology:**
+Ensure all necessary tools and libraries are installed, including Python, Pandas, Google API Client, MongoDB, MySQL, and Streamlit.
+YouTube API Key Generation:
 
-Set up the environment of project and make sure all pre requisites are met.
+Generate an API key using the Google Developer Console to retrieve data from YouTube.
+Data Retrieval:
 
-Generate API key in order to retrieve data from youtube using google console API's.
+Use the YouTube API to fetch data using the channel ID and service object.
+Data Storage:
 
-Retrieve the data from the youtube using the API key and service object of youtube.
+Store the retrieved data in MongoDB Compass, which acts as the data lake.
+SQL Database Connection:
 
-Store the data to Mongo DB compass.
+Establish a connection to a MySQL database and migrate data from MongoDB for structured storage.
+Streamlit Visualization:
 
-Create the connect using SQL and load the data to MySQL database.
+Visualize the data within the Streamlit app, allowing users to interact with the data and perform custom searches.
+Functionality in the Streamlit App:
 
-Using Streamlit application visualize output of the project.
+Retrieve YouTube Channel Data: Fetch and store data in MongoDB using the channel ID.
+Data Migration to MySQL: Upload data from MongoDB to MySQL for analysis.
+View Tables: Display channel, video, and comments tables.
+Search Options: Provide search functionalities with pre-defined queries and allow users to generate custom column views based on channel ID or name.
+This project showcases the full lifecycle of data from retrieval, storage, migration, and analysis, offering valuable insights into YouTube channels and their performance.
 
-**Functionality available on streamlit app:**
-
-1. Retreive the data of any youtube channel using channel ID and storing it to mongoDB.
-2. Uploading the data to MySQL from mongoDB.
-3. View the channel table , video table , comments table.
-4. Search 10 questions provided with the Project.
-5. Generate column view at runtime using search options based on channel ID and channel name.
-
-Feel free to reach me on my linkedin Profile:> https://www.linkedin.com/in/sabreena-gulzar-5a0227176/
+## Feel free to reach me on my linkedin Profile:> https://www.linkedin.com/in/sabreena-gulzar-5a0227176/
 
 
 
